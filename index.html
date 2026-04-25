@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>COVAREL RIB — Semi-Rigides Côte d'Azur</title>
+  <title>COVAREL RIB — Prestige Semi-Rigid Boats</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Montserrat:wght@200;400;600;700&display=swap" rel="stylesheet"/>
   <style>
     :root {
@@ -13,512 +13,779 @@
       --card: #161616;
       --gold: #C9A84C;
       --gold-light: #E8C97A;
-      --gold-dim: rgba(201,168,76,0.12);
+      --gold-dim: rgba(201,168,76,0.15);
       --white: #F5F0E8;
       --grey: #888;
     }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { background: var(--black); color: var(--white); font-family: 'Montserrat', sans-serif; font-weight: 200; overflow-x: hidden; cursor: none; }
 
 ```
-.cursor { position: fixed; width: 8px; height: 8px; background: var(--gold); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
-.cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid var(--gold); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: all 0.15s ease; opacity: 0.6; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 4rem; background: linear-gradient(to bottom, rgba(8,8,8,0.95), transparent); transition: background 0.3s; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 200;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* Custom cursor */
+.cursor {
+  position: fixed;
+  width: 8px; height: 8px;
+  background: var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s;
+}
+.cursor-ring {
+  position: fixed;
+  width: 36px; height: 36px;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: all 0.15s ease;
+  opacity: 0.6;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.5rem 4rem;
+  background: linear-gradient(to bottom, rgba(8,8,8,0.95), transparent);
+  transition: background 0.3s;
+}
 nav.scrolled { background: rgba(8,8,8,0.97); border-bottom: 1px solid rgba(201,168,76,0.15); }
-.logo { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 300; letter-spacing: 0.3em; color: var(--white); text-decoration: none; }
+
+.logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  color: var(--white);
+  text-decoration: none;
+}
 .logo span { color: var(--gold); }
+
 .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-.nav-links a { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--grey); text-decoration: none; transition: color 0.3s; }
+.nav-links a {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--grey);
+  text-decoration: none;
+  transition: color 0.3s;
+}
 .nav-links a:hover { color: var(--gold); }
-.lang-toggle { display: flex; gap: 0.5rem; }
-.lang-btn { background: none; border: 1px solid rgba(201,168,76,0.3); color: var(--grey); font-size: 0.6rem; letter-spacing: 0.15em; padding: 0.3rem 0.7rem; cursor: none; transition: all 0.3s; font-family: 'Montserrat', sans-serif; }
-.lang-btn.active, .lang-btn:hover { background: var(--gold); color: var(--black); border-color: var(--gold); }
 
-.hero { position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-.hero-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1800&q=80') center/cover no-repeat; animation: heroZoom 20s ease-in-out infinite alternate; }
-@keyframes heroZoom { from { transform: scale(1.05); } to { transform: scale(1.12); } }
-.hero-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(8,8,8,0.88) 0%, rgba(8,8,8,0.55) 50%, rgba(8,8,8,0.80) 100%); }
-.hero-content { position: relative; z-index: 2; text-align: center; animation: fadeUp 1.2s ease both; }
-@keyframes fadeUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
-.hero-eyebrow { font-size: 0.6rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; animation: fadeUp 1.2s 0.2s ease both; }
-.hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(3.5rem, 8vw, 7rem); font-weight: 300; line-height: 1; letter-spacing: 0.05em; margin-bottom: 0.5rem; animation: fadeUp 1.2s 0.3s ease both; }
-.hero h1 em { font-style: italic; color: var(--gold); }
-.hero-sub { font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--grey); margin-bottom: 0.8rem; animation: fadeUp 1.2s 0.5s ease both; }
-.hero-tagline { font-family: 'Cormorant Garamond', serif; font-size: clamp(1rem, 2vw, 1.4rem); font-style: italic; color: rgba(245,240,232,0.55); margin-bottom: 2.5rem; animation: fadeUp 1.2s 0.6s ease both; }
-.hero-cta { display: inline-flex; gap: 1rem; animation: fadeUp 1.2s 0.7s ease both; flex-wrap: wrap; justify-content: center; }
-.btn-gold { padding: 0.9rem 2.5rem; background: var(--gold); color: var(--black); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 600; text-decoration: none; border: none; cursor: none; transition: all 0.3s; font-family: 'Montserrat', sans-serif; display: inline-block; }
+.lang-toggle {
+  display: flex; gap: 0.5rem;
+}
+.lang-btn {
+  background: none; border: 1px solid rgba(201,168,76,0.3);
+  color: var(--grey); font-size: 0.6rem;
+  letter-spacing: 0.15em; padding: 0.3rem 0.7rem;
+  cursor: none; transition: all 0.3s;
+  font-family: 'Montserrat', sans-serif;
+}
+.lang-btn.active, .lang-btn:hover {
+  background: var(--gold); color: var(--black); border-color: var(--gold);
+}
+
+/* HERO */
+.hero {
+  position: relative;
+  height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1800&q=80') center/cover no-repeat;
+  transform: scale(1.05);
+  animation: heroZoom 20s ease-in-out infinite alternate;
+}
+@keyframes heroZoom {
+  from { transform: scale(1.05); }
+  to { transform: scale(1.12); }
+}
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(8,8,8,0.85) 0%, rgba(8,8,8,0.5) 50%, rgba(8,8,8,0.75) 100%);
+}
+.hero-content {
+  position: relative; z-index: 2;
+  text-align: center;
+  animation: fadeUp 1.2s ease both;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-eyebrow {
+  font-size: 0.6rem; letter-spacing: 0.4em;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 1.5rem;
+  animation: fadeUp 1.2s 0.2s ease both;
+}
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3.5rem, 8vw, 7rem);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+  animation: fadeUp 1.2s 0.3s ease both;
+}
+.hero h1 em {
+  font-style: italic; color: var(--gold);
+}
+.hero-sub {
+  font-size: 0.7rem; letter-spacing: 0.25em;
+  text-transform: uppercase; color: var(--grey);
+  margin-bottom: 3rem;
+  animation: fadeUp 1.2s 0.5s ease both;
+}
+.hero-cta {
+  display: inline-flex; gap: 1rem;
+  animation: fadeUp 1.2s 0.7s ease both;
+}
+.btn-gold {
+  padding: 0.9rem 2.5rem;
+  background: var(--gold); color: var(--black);
+  font-size: 0.6rem; letter-spacing: 0.2em;
+  text-transform: uppercase; font-weight: 600;
+  text-decoration: none; border: none;
+  cursor: none; transition: all 0.3s;
+  font-family: 'Montserrat', sans-serif;
+}
 .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); }
-.btn-outline { padding: 0.9rem 2.5rem; background: transparent; color: var(--white); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; border: 1px solid rgba(255,255,255,0.3); cursor: none; transition: all 0.3s; font-family: 'Montserrat', sans-serif; display: inline-block; }
+.btn-outline {
+  padding: 0.9rem 2.5rem;
+  background: transparent; color: var(--white);
+  font-size: 0.6rem; letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none; border: 1px solid rgba(255,255,255,0.3);
+  cursor: none; transition: all 0.3s;
+  font-family: 'Montserrat', sans-serif;
+}
 .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
-.hero-scroll { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
-.hero-scroll span { font-size: 0.5rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--grey); }
-.scroll-line { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scrollPulse 2s ease-in-out infinite; }
-@keyframes scrollPulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
-.positioning { background: var(--dark); padding: 4rem; text-align: center; border-top: 1px solid rgba(201,168,76,0.1); border-bottom: 1px solid rgba(201,168,76,0.1); }
-.positioning-quote { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.4rem, 3vw, 2.3rem); font-style: italic; color: var(--white); max-width: 800px; margin: 0 auto 1rem; line-height: 1.4; }
-.positioning-quote em { color: var(--gold); }
-.positioning-sub { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--grey); }
+.hero-scroll {
+  position: absolute; bottom: 2.5rem; left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  animation: fadeUp 1.2s 1s ease both;
+}
+.hero-scroll span {
+  font-size: 0.5rem; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--grey);
+}
+.scroll-line {
+  width: 1px; height: 50px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(1); }
+  50% { opacity: 1; transform: scaleY(1.1); }
+}
 
+/* SECTION BASE */
 section { padding: 8rem 4rem; }
-.section-label { font-size: 0.55rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
-.section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 300; line-height: 1.1; margin-bottom: 2rem; }
-.gold-line { width: 60px; height: 1px; background: var(--gold); margin-bottom: 2.5rem; }
+.section-label {
+  font-size: 0.55rem; letter-spacing: 0.4em;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 1rem;
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 300; line-height: 1.1;
+  margin-bottom: 2rem;
+}
+.gold-line {
+  width: 60px; height: 1px;
+  background: var(--gold); margin-bottom: 2.5rem;
+}
 
-.about { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; max-width: 1300px; margin: 0 auto; }
-.about-text p { font-size: 0.85rem; line-height: 1.9; color: rgba(245,240,232,0.7); margin-bottom: 1.2rem; }
-.about-img { position: relative; }
-.about-img img { width: 100%; aspect-ratio: 4/3; object-fit: cover; filter: brightness(0.85); }
-.about-img::before { content: ''; position: absolute; top: -20px; left: -20px; right: 20px; bottom: 20px; border: 1px solid var(--gold-dim); z-index: -1; }
-.heritage-badge { position: absolute; bottom: -1.5rem; right: -1.5rem; background: var(--gold); color: var(--black); padding: 1.2rem 1.5rem; text-align: center; }
-.heritage-badge strong { display: block; font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300; }
-.heritage-badge span { font-size: 0.5rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 600; }
-.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3rem; border-top: 1px solid rgba(201,168,76,0.15); padding-top: 2rem; }
-.stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; color: var(--gold); }
-.stat-label { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--grey); margin-top: 0.3rem; }
+/* ABOUT */
+.about {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 6rem; align-items: center;
+  max-width: 1300px; margin: 0 auto;
+}
+.about-text p {
+  font-size: 0.85rem; line-height: 1.9;
+  color: rgba(245,240,232,0.7); margin-bottom: 1.2rem;
+}
+.about-img {
+  position: relative;
+}
+.about-img img {
+  width: 100%; aspect-ratio: 4/3;
+  object-fit: cover;
+  filter: brightness(0.85);
+}
+.about-img::before {
+  content: '';
+  position: absolute; top: -20px; left: -20px;
+  right: 20px; bottom: 20px;
+  border: 1px solid var(--gold-dim);
+  z-index: -1;
+}
+.stats {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 2rem; margin-top: 3rem;
+  border-top: 1px solid rgba(201,168,76,0.15);
+  padding-top: 2rem;
+}
+.stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.5rem; font-weight: 300; color: var(--gold);
+}
+.stat-label {
+  font-size: 0.55rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--grey);
+  margin-top: 0.3rem;
+}
 
+/* CATALOGUE */
 #catalogue { background: var(--dark); }
-.catalogue-header { text-align: center; max-width: 650px; margin: 0 auto 5rem; }
+.catalogue-header {
+  text-align: center; max-width: 600px;
+  margin: 0 auto 5rem;
+}
 .catalogue-header .gold-line { margin: 0 auto 2.5rem; }
-.catalogue-header p { font-size: 0.8rem; line-height: 1.8; color: rgba(245,240,232,0.6); }
-.boats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; max-width: 1400px; margin: 0 auto; }
-.boat-card { position: relative; overflow: hidden; aspect-ratio: 3/4; cursor: none; }
-.boat-card:first-child { grid-row: span 2; aspect-ratio: auto; }
-.boat-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s ease; filter: brightness(0.65); }
-.boat-card:hover img { transform: scale(1.08); filter: brightness(0.45); }
-.boat-info { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 2rem; background: linear-gradient(to top, rgba(8,8,8,0.92) 0%, transparent 55%); }
-.boat-tag { font-size: 0.5rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
-.boat-name { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300; }
-.boat-price { font-size: 0.7rem; color: var(--gold); margin-top: 0.3rem; }
-.boat-specs { display: flex; gap: 1.5rem; margin-top: 0.8rem; opacity: 0; transform: translateY(10px); transition: all 0.4s ease; }
+.catalogue-header p {
+  font-size: 0.8rem; line-height: 1.8;
+  color: rgba(245,240,232,0.6);
+}
+.boats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  max-width: 1400px; margin: 0 auto;
+}
+.boat-card {
+  position: relative; overflow: hidden;
+  aspect-ratio: 3/4; cursor: none;
+}
+.boat-card:first-child {
+  grid-row: span 2; aspect-ratio: auto;
+}
+.boat-card img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s ease;
+  filter: brightness(0.7);
+}
+.boat-card:hover img {
+  transform: scale(1.08);
+  filter: brightness(0.5);
+}
+.boat-info {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  justify-content: flex-end;
+  padding: 2rem;
+  background: linear-gradient(to top, rgba(8,8,8,0.9) 0%, transparent 60%);
+}
+.boat-tag {
+  font-size: 0.5rem; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+.boat-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem; font-weight: 300;
+}
+.boat-specs {
+  display: flex; gap: 1.5rem; margin-top: 0.8rem;
+  opacity: 0; transform: translateY(10px);
+  transition: all 0.4s ease;
+}
 .boat-card:hover .boat-specs { opacity: 1; transform: translateY(0); }
-.spec { font-size: 0.6rem; color: rgba(245,240,232,0.7); }
+.spec {
+  font-size: 0.6rem; color: rgba(245,240,232,0.7);
+}
 .spec strong { display: block; color: var(--gold); font-size: 0.75rem; }
-.boat-cta { margin-top: 1.2rem; opacity: 0; transform: translateY(10px); transition: all 0.4s 0.1s ease; }
+.boat-cta {
+  margin-top: 1.2rem;
+  opacity: 0; transform: translateY(10px);
+  transition: all 0.4s 0.1s ease;
+}
 .boat-card:hover .boat-cta { opacity: 1; transform: translateY(0); }
 
-#audience { background: var(--dark); }
-.audience-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; max-width: 1200px; margin: 0 auto; }
-.audience-card { padding: 3rem; background: var(--card); border: 1px solid rgba(201,168,76,0.08); transition: border-color 0.3s; }
-.audience-card:hover { border-color: var(--gold); }
-.audience-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300; margin-bottom: 1rem; }
-.audience-card h3 em { font-style: italic; color: var(--gold); }
-.audience-card p { font-size: 0.78rem; line-height: 1.9; color: rgba(245,240,232,0.6); margin-bottom: 1.5rem; }
-.audience-list { list-style: none; }
-.audience-list li { font-size: 0.7rem; color: rgba(245,240,232,0.7); padding: 0.5rem 0; border-bottom: 1px solid rgba(201,168,76,0.08); display: flex; align-items: center; gap: 0.8rem; }
-.audience-list li::before { content: '◆'; color: var(--gold); font-size: 0.4rem; flex-shrink: 0; }
+/* FEATURES */
+.features-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 3rem; max-width: 1200px; margin: 0 auto;
+}
+.feature {
+  padding: 2.5rem;
+  border: 1px solid rgba(201,168,76,0.1);
+  transition: border-color 0.3s, background 0.3s;
+}
+.feature:hover {
+  border-color: var(--gold);
+  background: var(--gold-dim);
+}
+.feature-icon {
+  font-size: 1.8rem; margin-bottom: 1.5rem;
+}
+.feature h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem; font-weight: 300;
+  margin-bottom: 1rem; color: var(--gold);
+}
+.feature p {
+  font-size: 0.75rem; line-height: 1.8;
+  color: rgba(245,240,232,0.6);
+}
 
-.features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; max-width: 1300px; margin: 0 auto; }
-.feature { padding: 2.5rem; background: var(--card); border: 1px solid rgba(201,168,76,0.08); transition: border-color 0.3s, background 0.3s; }
-.feature:hover { border-color: var(--gold); background: var(--gold-dim); }
-.feature-icon { font-size: 1.8rem; margin-bottom: 1.5rem; }
-.feature h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 300; margin-bottom: 1rem; color: var(--gold); }
-.feature p { font-size: 0.75rem; line-height: 1.8; color: rgba(245,240,232,0.6); }
-
-#contact { background: var(--black); }
-.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; max-width: 1100px; margin: 0 auto; align-items: start; }
-.contact-info p { font-size: 0.8rem; line-height: 1.9; color: rgba(245,240,232,0.6); margin-bottom: 2rem; }
-.contact-detail { display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 2rem; }
-.contact-detail a { font-size: 0.75rem; color: var(--grey); text-decoration: none; transition: color 0.3s; }
+/* CONTACT */
+#contact { background: var(--dark); }
+.contact-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 6rem; max-width: 1100px; margin: 0 auto;
+  align-items: start;
+}
+.contact-info p {
+  font-size: 0.8rem; line-height: 1.9;
+  color: rgba(245,240,232,0.6); margin-bottom: 2rem;
+}
+.contact-detail {
+  display: flex; flex-direction: column; gap: 1rem;
+  margin-bottom: 2rem;
+}
+.contact-detail a {
+  font-size: 0.75rem; color: var(--grey);
+  text-decoration: none; letter-spacing: 0.05em;
+  transition: color 0.3s;
+}
 .contact-detail a:hover { color: var(--gold); }
-.form-group { margin-bottom: 1.4rem; }
-.form-group label { display: block; font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--grey); margin-bottom: 0.6rem; }
-.form-group input, .form-group select, .form-group textarea { width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(201,168,76,0.2); color: var(--white); padding: 0.9rem 1.2rem; font-family: 'Montserrat', sans-serif; font-size: 0.8rem; font-weight: 200; outline: none; transition: border-color 0.3s; appearance: none; }
-.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--gold); }
-.form-group textarea { resize: vertical; min-height: 110px; }
-.form-group select option { background: var(--dark); }
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
-footer { padding: 3rem 4rem; border-top: 1px solid rgba(201,168,76,0.1); display: flex; align-items: center; justify-content: space-between; background: var(--dark); }
-.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; letter-spacing: 0.3em; }
+.form-group { margin-bottom: 1.5rem; }
+.form-group label {
+  display: block; font-size: 0.55rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--grey); margin-bottom: 0.6rem;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%; background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(201,168,76,0.2);
+  color: var(--white); padding: 0.9rem 1.2rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.8rem; font-weight: 200;
+  outline: none; transition: border-color 0.3s;
+  appearance: none;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus { border-color: var(--gold); }
+.form-group textarea { resize: vertical; min-height: 120px; }
+.form-group select option { background: var(--dark); }
+
+/* FOOTER */
+footer {
+  padding: 3rem 4rem;
+  border-top: 1px solid rgba(201,168,76,0.1);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem; letter-spacing: 0.3em; color: var(--white);
+}
 .footer-logo span { color: var(--gold); }
-.footer-copy { font-size: 0.55rem; color: var(--grey); }
+.footer-copy {
+  font-size: 0.55rem; letter-spacing: 0.1em;
+  color: var(--grey);
+}
 .footer-links { display: flex; gap: 2rem; }
-.footer-links a { font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--grey); text-decoration: none; transition: color 0.3s; }
+.footer-links a {
+  font-size: 0.55rem; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--grey);
+  text-decoration: none; transition: color 0.3s;
+}
 .footer-links a:hover { color: var(--gold); }
 
-.divider { display: flex; align-items: center; gap: 1.5rem; max-width: 1300px; margin: 0 auto; padding: 0 4rem; }
-.divider-line { flex: 1; height: 1px; background: rgba(201,168,76,0.12); }
-.divider-diamond { color: var(--gold); font-size: 0.6rem; }
-
-.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
-.reveal.visible { opacity: 1; transform: translateY(0); }
-
+/* RESPONSIVE */
 @media (max-width: 900px) {
   nav { padding: 1.2rem 1.5rem; }
   .nav-links { display: none; }
   section { padding: 5rem 1.5rem; }
-  .about { grid-template-columns: 1fr; gap: 4rem; }
+  .about { grid-template-columns: 1fr; gap: 3rem; }
   .boats-grid { grid-template-columns: 1fr; }
   .boat-card:first-child { grid-row: span 1; }
-  .features-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
-  .audience-grid { grid-template-columns: 1fr; }
+  .features-grid { grid-template-columns: 1fr 1fr; }
   .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
-  .form-row { grid-template-columns: 1fr; }
   footer { flex-direction: column; gap: 1.5rem; text-align: center; }
   body { cursor: auto; }
   .cursor, .cursor-ring { display: none; }
-  .heritage-badge { position: static; display: inline-block; margin-top: 1.5rem; }
 }
+
+/* ANIMATIONS */
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* GOLD DIVIDER */
+.divider {
+  display: flex; align-items: center; gap: 1.5rem;
+  max-width: 1300px; margin: 0 auto;
+  padding: 0 4rem;
+}
+.divider-line { flex: 1; height: 1px; background: rgba(201,168,76,0.15); }
+.divider-diamond { color: var(--gold); font-size: 0.6rem; }
 ```
 
   </style>
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
 
-<nav id="navbar">
-  <a href="#" class="logo">COVAREL<span>·</span>RIB</a>
-  <ul class="nav-links">
-    <li><a href="#about" class="fr-text">Notre Histoire</a><a href="#about" class="en-text" style="display:none">Our Story</a></li>
-    <li><a href="#catalogue" class="fr-text">Catalogue</a><a href="#catalogue" class="en-text" style="display:none">Fleet</a></li>
-    <li><a href="#audience" class="fr-text">Particuliers & Pros</a><a href="#audience" class="en-text" style="display:none">Private & Pro</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <div class="lang-toggle">
-    <button class="lang-btn active" onclick="setLang('fr')">FR</button>
-    <button class="lang-btn" onclick="setLang('en')">EN</button>
-  </div>
-</nav>
+  <!-- NAV -->
 
-<!-- HERO -->
-
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-overlay"></div>
-  <div class="hero-content">
-    <p class="hero-eyebrow fr-text">Côte d'Azur · Var · Export International</p>
-    <p class="hero-eyebrow en-text" style="display:none">French Riviera · Var · Worldwide Export</p>
-    <h1>COVAREL<br><em>RIB</em></h1>
-    <p class="hero-sub fr-text">Semi-Rigides de Prestige</p>
-    <p class="hero-sub en-text" style="display:none">Prestige Rigid Inflatable Boats</p>
-    <p class="hero-tagline fr-text">"Le plaisir d'un vrai semi-rigide, sans le prix d'un caprice."</p>
-    <p class="hero-tagline en-text" style="display:none">"The thrill of a real RIB, without the unreasonable price tag."</p>
-    <div class="hero-cta">
-      <a href="#catalogue" class="btn-gold fr-text">Voir les modèles</a>
-      <a href="#catalogue" class="btn-gold en-text" style="display:none">Browse models</a>
-      <a href="#contact" class="btn-outline fr-text">Demande de devis</a>
-      <a href="#contact" class="btn-outline en-text" style="display:none">Get a quote</a>
+  <nav id="navbar">
+    <a href="#" class="logo">COVAREL<span>·</span>RIB</a>
+    <ul class="nav-links">
+      <li><a href="#about" class="fr-text">À Propos</a></li>
+      <li><a href="#catalogue" class="fr-text">Catalogue</a></li>
+      <li><a href="#expertise" class="fr-text">Expertise</a></li>
+      <li><a href="#contact" class="fr-text">Contact</a></li>
+    </ul>
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
     </div>
+  </nav>
+
+  <!-- HERO -->
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow fr-text">Semi-Rigides de Prestige · Export Mondial</p>
+      <p class="hero-eyebrow en-text" style="display:none">Prestige Rigid Inflatable Boats · Worldwide Export</p>
+      <h1>COVAREL<br><em>RIB</em></h1>
+      <p class="hero-sub fr-text">L'excellence nautique, sans compromis</p>
+      <p class="hero-sub en-text" style="display:none">Nautical excellence, uncompromised</p>
+      <div class="hero-cta">
+        <a href="#catalogue" class="btn-gold fr-text">Découvrir nos modèles</a>
+        <a href="#catalogue" class="btn-gold en-text" style="display:none">Explore our models</a>
+        <a href="#contact" class="btn-outline fr-text">Demander un devis</a>
+        <a href="#contact" class="btn-outline en-text" style="display:none">Request a quote</a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+
+  <section id="about" style="padding-top: 8rem; padding-bottom: 8rem;">
+    <div class="about">
+      <div class="about-text reveal">
+        <p class="section-label fr-text">À Propos</p>
+        <p class="section-label en-text" style="display:none">About Us</p>
+        <h2 class="section-title fr-text">L'art de <em style="font-style:italic; color:var(--gold)">construire</em> les mers</h2>
+        <h2 class="section-title en-text" style="display:none">The art of <em style="font-style:italic; color:var(--gold)">mastering</em> the seas</h2>
+        <div class="gold-line"></div>
+        <p class="fr-text" style="font-size:0.85rem; line-height:1.9; color:rgba(245,240,232,0.7); margin-bottom:1.2rem">
+          Covarel RIB conçoit et distribue des semi-rigides haut de gamme destinés aux professionnels et passionnés du nautisme à travers le monde. Chaque embarcation est pensée pour allier performance, sécurité et esthétique.
+        </p>
+        <p class="en-text" style="display:none; font-size:0.85rem; line-height:1.9; color:rgba(245,240,232,0.7); margin-bottom:1.2rem">
+          Covarel RIB designs and distributes premium rigid inflatable boats for professionals and nautical enthusiasts worldwide. Each vessel is crafted to combine performance, safety and aesthetics.
+        </p>
+        <p class="fr-text" style="font-size:0.85rem; line-height:1.9; color:rgba(245,240,232,0.7);">
+          Nos modèles sont exportés dans plus de 30 pays, des côtes méditerranéennes aux archipels du Pacifique, avec un service après-vente dédié à l'international.
+        </p>
+        <p class="en-text" style="display:none; font-size:0.85rem; line-height:1.9; color:rgba(245,240,232,0.7);">
+          Our models are exported to over 30 countries, from Mediterranean shores to Pacific archipelagos, with a dedicated international after-sales service.
+        </p>
+        <div class="stats">
+          <div>
+            <div class="stat-num">30+</div>
+            <div class="stat-label fr-text">Pays exportés</div>
+            <div class="stat-label en-text" style="display:none">Countries</div>
+          </div>
+          <div>
+            <div class="stat-num">15+</div>
+            <div class="stat-label fr-text">Modèles</div>
+            <div class="stat-label en-text" style="display:none">Models</div>
+          </div>
+          <div>
+            <div class="stat-num">100%</div>
+            <div class="stat-label fr-text">Sur mesure</div>
+            <div class="stat-label en-text" style="display:none">Custom built</div>
+          </div>
+        </div>
+      </div>
+      <div class="about-img reveal">
+        <img src="https://images.unsplash.com/photo-1605281317010-fe5ffe798166?w=900&q=80" alt="Semi-rigide Covarel RIB" />
+      </div>
+    </div>
+  </section>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-diamond">◆</div>
+    <div class="divider-line"></div>
   </div>
-  <div class="hero-scroll"><span>Scroll</span><div class="scroll-line"></div></div>
-</section>
 
-<!-- POSITIONING -->
+  <!-- CATALOGUE -->
 
-<div class="positioning">
-  <p class="positioning-quote fr-text">La <em>Dacia</em> du nautisme — la fiabilité et le style méditerranéen, <em>au juste prix.</em></p>
-  <p class="positioning-quote en-text" style="display:none">The smart choice for the Mediterranean — <em>premium quality,</em> honest pricing.</p>
-  <p class="positioning-sub fr-text">Importateur direct · Fournisseurs européens certifiés CE · Livraison France & Export</p>
-  <p class="positioning-sub en-text" style="display:none">Direct importer · CE-certified European suppliers · France & worldwide delivery</p>
-</div>
-
-<!-- ABOUT -->
-
-<section id="about">
-  <div class="about">
-    <div class="about-text reveal">
-      <p class="section-label fr-text">Notre Histoire</p>
-      <p class="section-label en-text" style="display:none">Our Story</p>
-      <h2 class="section-title fr-text">Né entre <em style="font-style:italic; color:var(--gold)">la montagne</em> et la mer</h2>
-      <h2 class="section-title en-text" style="display:none">Born between <em style="font-style:italic; color:var(--gold)">mountains</em> and sea</h2>
+  <section id="catalogue">
+    <div class="catalogue-header reveal">
+      <p class="section-label fr-text">Catalogue</p>
+      <p class="section-label en-text" style="display:none">Fleet</p>
+      <h2 class="section-title fr-text">Nos <em style="font-style:italic; color:var(--gold)">modèles</em></h2>
+      <h2 class="section-title en-text" style="display:none">Our <em style="font-style:italic; color:var(--gold)">fleet</em></h2>
       <div class="gold-line"></div>
-      <p class="fr-text" style="font-size:0.85rem;line-height:1.9;color:rgba(245,240,232,0.7);margin-bottom:1.2rem">
-        Covarel, c'est une histoire de famille. Nos parents ont bâti les <strong style="color:var(--gold)">Chalets Covarel</strong> à Val d'Isère — une référence de l'hospitalité alpine depuis des décennies. Aujourd'hui, nous portons ce même ADN d'exigence et de service vers la mer, depuis le Var.
-      </p>
-      <p class="en-text" style="display:none;font-size:0.85rem;line-height:1.9;color:rgba(245,240,232,0.7);margin-bottom:1.2rem">
-        Covarel is a family story. Our family built <strong style="color:var(--gold)">Chalets Covarel</strong> in Val d'Isère — a reference in alpine hospitality for decades. Today, we bring that same DNA of excellence and service to the sea, from the Var coast.
-      </p>
-      <p class="fr-text" style="font-size:0.85rem;line-height:1.9;color:rgba(245,240,232,0.7)">
-        Passionné de nautisme et basé sur la Côte d'Azur, j'ai fondé Covarel RIB pour rendre accessibles des semi-rigides de qualité européenne — importés directement, sans intermédiaires. La logistique internationale ? C'est dans nos gènes.
-      </p>
-      <p class="en-text" style="display:none;font-size:0.85rem;line-height:1.9;color:rgba(245,240,232,0.7)">
-        As a passionate sailor based on the French Riviera, I founded Covarel RIB to make quality European RIBs truly accessible — imported directly, no middlemen. International logistics? It runs in our family.
-      </p>
-      <div class="stats">
-        <div><div class="stat-num">83</div><div class="stat-label fr-text">Le Var, notre base</div><div class="stat-label en-text" style="display:none">Var, our home</div></div>
-        <div><div class="stat-num">CE</div><div class="stat-label fr-text">Certifié Europe</div><div class="stat-label en-text" style="display:none">EU Certified</div></div>
-        <div><div class="stat-num">0€</div><div class="stat-label fr-text">D'intermédiaire</div><div class="stat-label en-text" style="display:none">Middlemen</div></div>
-      </div>
+      <p class="fr-text">Chaque modèle est disponible en configuration standard ou sur mesure selon vos exigences opérationnelles.</p>
+      <p class="en-text" style="display:none">Each model is available in standard or custom configuration to meet your operational requirements.</p>
     </div>
-    <div class="about-img reveal">
-      <img src="https://images.unsplash.com/photo-1605281317010-fe5ffe798166?w=900&q=80" alt="Covarel RIB" />
-      <div class="heritage-badge">
-        <strong>Covarel</strong>
-        <span>Val d'Isère Heritage</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"><div class="divider-line"></div><div class="divider-diamond">◆</div><div class="divider-line"></div></div>
-
-<!-- CATALOGUE -->
-
-<section id="catalogue">
-  <div class="catalogue-header reveal">
-    <p class="section-label fr-text">Catalogue 2025</p>
-    <p class="section-label en-text" style="display:none">2025 Fleet</p>
-    <h2 class="section-title fr-text">Nos <em style="font-style:italic;color:var(--gold)">modèles</em></h2>
-    <h2 class="section-title en-text" style="display:none">Our <em style="font-style:italic;color:var(--gold)">models</em></h2>
-    <div class="gold-line"></div>
-    <p class="fr-text">Sélection de semi-rigides importés directement auprès de fabricants européens certifiés CE. Chaque modèle est personnalisable : motorisation, couleur, équipements.</p>
-    <p class="en-text" style="display:none">A curated selection of RIBs imported directly from CE-certified European manufacturers. Every model is customisable: engine, colour, equipment.</p>
-  </div>
-  <div class="boats-grid reveal">
-    <div class="boat-card">
-      <img src="https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=800&q=80" alt="Covarel 780" />
-      <div class="boat-info">
-        <div class="boat-tag fr-text">Notre Bestseller</div>
-        <div class="boat-tag en-text" style="display:none">Our Bestseller</div>
-        <div class="boat-name">Covarel 780</div>
-        <div class="boat-price fr-text">À partir de 28 000 €</div>
-        <div class="boat-price en-text" style="display:none">From €28,000</div>
-        <div class="boat-specs">
-          <div class="spec"><strong>7.8m</strong><span class="fr-text">Longueur</span><span class="en-text" style="display:none">Length</span></div>
-          <div class="spec"><strong>200cv</strong><span class="fr-text">Moteur</span><span class="en-text" style="display:none">Engine</span></div>
-          <div class="spec"><strong>8 pers.</strong></div>
+    <div class="boats-grid reveal">
+      <div class="boat-card">
+        <img src="https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=800&q=80" alt="Covarel 780 Pro" />
+        <div class="boat-info">
+          <div class="boat-tag">Flagship</div>
+          <div class="boat-name">Covarel 780 <em style="font-style:italic">Pro</em></div>
+          <div class="boat-specs">
+            <div class="spec"><strong>7.8m</strong>Longueur</div>
+            <div class="spec"><strong>2×200cv</strong>Motorisation</div>
+            <div class="spec"><strong>45kn</strong>Vitesse max</div>
+          </div>
+          <div class="boat-cta">
+            <a href="#contact" class="btn-gold fr-text" style="font-size:0.55rem; padding:0.6rem 1.5rem;">Demander infos</a>
+            <a href="#contact" class="btn-gold en-text" style="display:none; font-size:0.55rem; padding:0.6rem 1.5rem;">Request info</a>
+          </div>
         </div>
-        <div class="boat-cta"><a href="#contact" class="btn-gold fr-text" style="font-size:0.55rem;padding:0.6rem 1.5rem;">Demander un devis</a><a href="#contact" class="btn-gold en-text" style="display:none;font-size:0.55rem;padding:0.6rem 1.5rem;">Get a quote</a></div>
       </div>
-    </div>
-    <div class="boat-card">
-      <img src="https://images.unsplash.com/photo-1535916707207-35e686199795?w=800&q=80" alt="Covarel 550" />
-      <div class="boat-info">
-        <div class="boat-tag fr-text">Entrée de gamme</div>
-        <div class="boat-tag en-text" style="display:none">Entry level</div>
-        <div class="boat-name">Covarel 550</div>
-        <div class="boat-price fr-text">À partir de 12 500 €</div>
-        <div class="boat-price en-text" style="display:none">From €12,500</div>
-        <div class="boat-specs">
-          <div class="spec"><strong>5.5m</strong><span class="fr-text">Longueur</span></div>
-          <div class="spec"><strong>100cv</strong><span class="fr-text">Moteur</span></div>
-          <div class="spec"><strong>6 pers.</strong></div>
+      <div class="boat-card">
+        <img src="https://images.unsplash.com/photo-1535916707207-35e686199795?w=800&q=80" alt="Covarel 560" />
+        <div class="boat-info">
+          <div class="boat-tag">Série Sport</div>
+          <div class="boat-name">Covarel 560</div>
+          <div class="boat-specs">
+            <div class="spec"><strong>5.6m</strong>Longueur</div>
+            <div class="spec"><strong>115cv</strong>Motorisation</div>
+          </div>
+          <div class="boat-cta">
+            <a href="#contact" class="btn-gold fr-text" style="font-size:0.55rem; padding:0.6rem 1.5rem;">Demander infos</a>
+            <a href="#contact" class="btn-gold en-text" style="display:none; font-size:0.55rem; padding:0.6rem 1.5rem;">Request info</a>
+          </div>
         </div>
-        <div class="boat-cta"><a href="#contact" class="btn-gold fr-text" style="font-size:0.55rem;padding:0.6rem 1.5rem;">Demander un devis</a><a href="#contact" class="btn-gold en-text" style="display:none;font-size:0.55rem;padding:0.6rem 1.5rem;">Get a quote</a></div>
       </div>
-    </div>
-    <div class="boat-card">
-      <img src="https://images.unsplash.com/photo-1504885136988-95f0b2e5a86d?w=800&q=80" alt="Covarel 650 Pro" />
-      <div class="boat-info">
-        <div class="boat-tag fr-text">Usage Pro</div>
-        <div class="boat-tag en-text" style="display:none">Professional</div>
-        <div class="boat-name">Covarel 650 <em style="font-style:italic">Pro</em></div>
-        <div class="boat-price fr-text">À partir de 22 000 €</div>
-        <div class="boat-price en-text" style="display:none">From €22,000</div>
-        <div class="boat-specs">
-          <div class="spec"><strong>6.5m</strong><span class="fr-text">Longueur</span></div>
-          <div class="spec"><strong>150cv</strong><span class="fr-text">Moteur</span></div>
+      <div class="boat-card">
+        <img src="https://images.unsplash.com/photo-1504885136988-95f0b2e5a86d?w=800&q=80" alt="Covarel 650 Patrol" />
+        <div class="boat-info">
+          <div class="boat-tag">Professional</div>
+          <div class="boat-name">Covarel 650 <em style="font-style:italic">Patrol</em></div>
+          <div class="boat-specs">
+            <div class="spec"><strong>6.5m</strong>Longueur</div>
+            <div class="spec"><strong>150cv</strong>Motorisation</div>
+          </div>
+          <div class="boat-cta">
+            <a href="#contact" class="btn-gold fr-text" style="font-size:0.55rem; padding:0.6rem 1.5rem;">Demander infos</a>
+            <a href="#contact" class="btn-gold en-text" style="display:none; font-size:0.55rem; padding:0.6rem 1.5rem;">Request info</a>
+          </div>
         </div>
-        <div class="boat-cta"><a href="#contact" class="btn-gold fr-text" style="font-size:0.55rem;padding:0.6rem 1.5rem;">Demander un devis</a><a href="#contact" class="btn-gold en-text" style="display:none;font-size:0.55rem;padding:0.6rem 1.5rem;">Get a quote</a></div>
       </div>
-    </div>
-    <div class="boat-card">
-      <img src="https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=800&q=80" alt="Covarel 900 Prestige" />
-      <div class="boat-info">
-        <div class="boat-tag">Prestige</div>
-        <div class="boat-name">Covarel 900 <em style="font-style:italic">Prestige</em></div>
-        <div class="boat-price fr-text">Sur devis</div>
-        <div class="boat-price en-text" style="display:none">On request</div>
-        <div class="boat-specs">
-          <div class="spec"><strong>9.0m</strong><span class="fr-text">Longueur</span></div>
-          <div class="spec"><strong>2×250cv</strong><span class="fr-text">Moteurs</span></div>
+      <div class="boat-card">
+        <img src="https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=800&q=80" alt="Covarel 900 Luxury" />
+        <div class="boat-info">
+          <div class="boat-tag">Luxury</div>
+          <div class="boat-name">Covarel 900 <em style="font-style:italic">Luxury</em></div>
+          <div class="boat-specs">
+            <div class="spec"><strong>9.0m</strong>Longueur</div>
+            <div class="spec"><strong>2×250cv</strong>Motorisation</div>
+          </div>
+          <div class="boat-cta">
+            <a href="#contact" class="btn-gold fr-text" style="font-size:0.55rem; padding:0.6rem 1.5rem;">Demander infos</a>
+            <a href="#contact" class="btn-gold en-text" style="display:none; font-size:0.55rem; padding:0.6rem 1.5rem;">Request info</a>
+          </div>
         </div>
-        <div class="boat-cta"><a href="#contact" class="btn-gold fr-text" style="font-size:0.55rem;padding:0.6rem 1.5rem;">Demander un devis</a><a href="#contact" class="btn-gold en-text" style="display:none;font-size:0.55rem;padding:0.6rem 1.5rem;">Get a quote</a></div>
       </div>
     </div>
+  </section>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-diamond">◆</div>
+    <div class="divider-line"></div>
   </div>
-</section>
 
-<div class="divider"><div class="divider-line"></div><div class="divider-diamond">◆</div><div class="divider-line"></div></div>
+  <!-- EXPERTISE -->
 
-<!-- AUDIENCE -->
-
-<section id="audience">
-  <div style="text-align:center;margin-bottom:4rem" class="reveal">
-    <p class="section-label fr-text">Particuliers & Professionnels</p>
-    <p class="section-label en-text" style="display:none">Private & Professional</p>
-    <h2 class="section-title fr-text">Une offre pour <em style="font-style:italic;color:var(--gold)">chacun</em></h2>
-    <h2 class="section-title en-text" style="display:none">An offer for <em style="font-style:italic;color:var(--gold)">everyone</em></h2>
-    <div class="gold-line" style="margin:0 auto"></div>
-  </div>
-  <div class="audience-grid reveal">
-    <div class="audience-card">
-      <p class="section-label fr-text">Pour vous</p>
-      <p class="section-label en-text" style="display:none">For you</p>
-      <h3 class="fr-text"><em>Particuliers</em> & plaisanciers</h3>
-      <h3 class="en-text" style="display:none"><em>Private</em> buyers & sailors</h3>
-      <p class="fr-text">Vous rêvez d'un semi-rigide sur la Côte d'Azur sans payer le prix fort ? Covarel RIB vous propose des modèles européens fiables, homologués CE, livrés prêts à naviguer.</p>
-      <p class="en-text" style="display:none">Dreaming of a RIB on the French Riviera without breaking the bank? Covarel RIB offers reliable, CE-approved European models delivered ready to sail.</p>
-      <ul class="audience-list">
-        <li><span class="fr-text">Achat direct sans intermédiaire</span><span class="en-text" style="display:none">Direct purchase, no middlemen</span></li>
-        <li><span class="fr-text">Financement disponible</span><span class="en-text" style="display:none">Financing available</span></li>
-        <li><span class="fr-text">Reprise de votre ancien bateau</span><span class="en-text" style="display:none">Trade-in accepted</span></li>
-        <li><span class="fr-text">Livraison Var & Côte d'Azur</span><span class="en-text" style="display:none">Delivery in Var & French Riviera</span></li>
-        <li><span class="fr-text">Accompagnement mise à l'eau</span><span class="en-text" style="display:none">Launch assistance included</span></li>
-      </ul>
+  <section id="expertise">
+    <div style="text-align:center; margin-bottom:4rem;" class="reveal">
+      <p class="section-label fr-text">Pourquoi Covarel</p>
+      <p class="section-label en-text" style="display:none">Why Covarel</p>
+      <h2 class="section-title fr-text">Notre <em style="font-style:italic; color:var(--gold)">expertise</em></h2>
+      <h2 class="section-title en-text" style="display:none">Our <em style="font-style:italic; color:var(--gold)">expertise</em></h2>
+      <div class="gold-line" style="margin:0 auto;"></div>
     </div>
-    <div class="audience-card">
-      <p class="section-label fr-text">Pour votre activité</p>
-      <p class="section-label en-text" style="display:none">For your business</p>
-      <h3 class="fr-text"><em>Professionnels</em> & flottes</h3>
-      <h3 class="en-text" style="display:none"><em>Professional</em> fleets & operators</h3>
-      <p class="fr-text">Sociétés de location, yacht clubs, centres nautiques, sécurité maritime : tarifs flotte, configurations sur mesure et suivi dédié pour les professionnels du nautisme.</p>
-      <p class="en-text" style="display:none">Rental companies, yacht clubs, nautical centres, maritime security: fleet pricing, custom configurations and dedicated support for marine professionals.</p>
-      <ul class="audience-list">
-        <li><span class="fr-text">Tarifs flotte à partir de 3 unités</span><span class="en-text" style="display:none">Fleet pricing from 3 units</span></li>
-        <li><span class="fr-text">Configuration sur mesure</span><span class="en-text" style="display:none">Custom configuration</span></li>
-        <li><span class="fr-text">Homologation professionnelle</span><span class="en-text" style="display:none">Professional certification</span></li>
-        <li><span class="fr-text">SAV dédié & pièces détachées</span><span class="en-text" style="display:none">Dedicated after-sales & spare parts</span></li>
-        <li><span class="fr-text">Export & livraison internationale</span><span class="en-text" style="display:none">Export & international delivery</span></li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<div class="divider"><div class="divider-line"></div><div class="divider-diamond">◆</div><div class="divider-line"></div></div>
-
-<!-- WHY -->
-
-<section>
-  <div style="text-align:center;margin-bottom:4rem" class="reveal">
-    <p class="section-label fr-text">Pourquoi Covarel</p>
-    <p class="section-label en-text" style="display:none">Why Covarel</p>
-    <h2 class="section-title fr-text">Notre <em style="font-style:italic;color:var(--gold)">différence</em></h2>
-    <h2 class="section-title en-text" style="display:none">Our <em style="font-style:italic;color:var(--gold)">difference</em></h2>
-    <div class="gold-line" style="margin:0 auto"></div>
-  </div>
-  <div class="features-grid">
-    <div class="feature reveal">
-      <div class="feature-icon">🚢</div>
-      <h3 class="fr-text">Import Direct</h3>
-      <h3 class="en-text" style="display:none">Direct Import</h3>
-      <p class="fr-text">Achat directement aux fabricants européens (Turquie, Italie, Pologne). Zéro intermédiaire = prix justes pour vous.</p>
-      <p class="en-text" style="display:none">Sourced directly from European manufacturers (Turkey, Italy, Poland). Zero middlemen = fair prices for you.</p>
-    </div>
-    <div class="feature reveal">
-      <div class="feature-icon">✅</div>
-      <h3 class="fr-text">Certifié CE</h3>
-      <h3 class="en-text" style="display:none">CE Certified</h3>
-      <p class="fr-text">Tous nos modèles sont homologués CE et conformes aux réglementations françaises et européennes de navigation.</p>
-      <p class="en-text" style="display:none">All our models are CE-approved and compliant with French and European navigation regulations.</p>
-    </div>
-    <div class="feature reveal">
-      <div class="feature-icon">🌊</div>
-      <h3 class="fr-text">Expertise Terrain</h3>
-      <h3 class="en-text" style="display:none">Field Expertise</h3>
-      <p class="fr-text">Passionné et navigateur, je sélectionne chaque modèle après essais en mer. Je connais ces bateaux de l'intérieur.</p>
-      <p class="en-text" style="display:none">As a passionate sailor, I personally sea-test every model I select. I know these boats inside and out.</p>
-    </div>
-    <div class="feature reveal">
-      <div class="feature-icon">🏔️</div>
-      <h3 class="fr-text">ADN Familial</h3>
-      <h3 class="en-text" style="display:none">Family Heritage</h3>
-      <p class="fr-text">Héritiers des Chalets Covarel à Val d'Isère, nous apportons la même exigence de qualité et de service à notre activité nautique.</p>
-      <p class="en-text" style="display:none">Heirs of Chalets Covarel in Val d'Isère, we bring the same standards of quality and hospitality to our nautical venture.</p>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-
-<section id="contact">
-  <div class="contact-grid">
-    <div class="reveal">
-      <p class="section-label fr-text">Contact</p>
-      <p class="section-label en-text" style="display:none">Contact</p>
-      <h2 class="section-title fr-text">Parlons de <em style="font-style:italic;color:var(--gold)">votre projet</em></h2>
-      <h2 class="section-title en-text" style="display:none">Let's talk about <em style="font-style:italic;color:var(--gold)">your project</em></h2>
-      <div class="gold-line"></div>
-      <p class="fr-text" style="font-size:0.8rem;line-height:1.9;color:rgba(245,240,232,0.6);margin-bottom:2rem">Particulier, professionnel ou revendeur export ? Remplissez le formulaire et je vous réponds sous 24h avec une proposition adaptée à votre projet.</p>
-      <p class="en-text" style="display:none;font-size:0.8rem;line-height:1.9;color:rgba(245,240,232,0.6);margin-bottom:2rem">Private buyer, professional or export dealer? Fill in the form and I'll get back to you within 24h with a tailored proposal.</p>
-      <div class="contact-detail">
-        <a href="mailto:contact@covarel-rib.com">contact@covarel-rib.com</a>
-        <a href="#">Var (83), Côte d'Azur, France</a>
+    <div class="features-grid">
+      <div class="feature reveal">
+        <div class="feature-icon">⚓</div>
+        <h3 class="fr-text">Construction Premium</h3>
+        <h3 class="en-text" style="display:none">Premium Build</h3>
+        <p class="fr-text">Coques en fibre de verre haute résistance, tubes en Hypalon ou PVC renforcé, finitions soignées.</p>
+        <p class="en-text" style="display:none">High-resistance fibreglass hulls, Hypalon or reinforced PVC tubes, meticulous finish.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="feature-icon">🌍</div>
+        <h3 class="fr-text">Export Mondial</h3>
+        <h3 class="en-text" style="display:none">Global Export</h3>
+        <p class="fr-text">Logistique internationale maîtrisée, documentation douanière complète, livraison sur tous continents.</p>
+        <p class="en-text" style="display:none">Mastered international logistics, complete customs documentation, delivery to all continents.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="feature-icon">🔧</div>
+        <h3 class="fr-text">Sur Mesure</h3>
+        <h3 class="en-text" style="display:none">Custom Built</h3>
+        <p class="fr-text">Configuration moteur, équipements, couleurs et accessoires adaptés à chaque client et marché.</p>
+        <p class="en-text" style="display:none">Engine configuration, equipment, colours and accessories tailored to each client and market.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="feature-icon">🛡️</div>
+        <h3 class="fr-text">Certifications</h3>
+        <h3 class="en-text" style="display:none">Certifications</h3>
+        <p class="fr-text">Conformité CE, homologations internationales, accompagnement réglementaire pour chaque destination.</p>
+        <p class="en-text" style="display:none">CE compliance, international approvals, regulatory support for each destination.</p>
       </div>
     </div>
-    <div class="reveal">
-      <div class="form-row">
+  </section>
+
+  <!-- CONTACT -->
+
+  <section id="contact">
+    <div class="contact-grid">
+      <div class="reveal">
+        <p class="section-label fr-text">Contact</p>
+        <p class="section-label en-text" style="display:none">Contact</p>
+        <h2 class="section-title fr-text">Parlons de <em style="font-style:italic; color:var(--gold)">votre projet</em></h2>
+        <h2 class="section-title en-text" style="display:none">Let's discuss <em style="font-style:italic; color:var(--gold)">your project</em></h2>
+        <div class="gold-line"></div>
+        <p class="fr-text" style="font-size:0.8rem; line-height:1.9; color:rgba(245,240,232,0.6); margin-bottom:2rem">
+          Vous êtes distributeur, revendeur ou acheteur professionnel ? Contactez-nous pour recevoir notre catalogue complet et une proposition tarifaire adaptée à votre marché.
+        </p>
+        <p class="en-text" style="display:none; font-size:0.8rem; line-height:1.9; color:rgba(245,240,232,0.6); margin-bottom:2rem">
+          Are you a distributor, dealer or professional buyer? Contact us to receive our full catalogue and a tailored price proposal for your market.
+        </p>
+        <div class="contact-detail">
+          <a href="mailto:contact@covarel-rib.com">contact@covarel-rib.com</a>
+          <a href="tel:+33000000000">+33 (0)0 00 00 00 00</a>
+          <a href="#">covarel-rib.com</a>
+        </div>
+      </div>
+      <div class="reveal">
         <div class="form-group">
-          <label class="fr-text">Prénom</label><label class="en-text" style="display:none">First name</label>
-          <input type="text" placeholder="Hugo" />
+          <label class="fr-text">Nom complet</label>
+          <label class="en-text" style="display:none">Full name</label>
+          <input type="text" placeholder="John Smith" />
         </div>
         <div class="form-group">
-          <label class="fr-text">Nom</label><label class="en-text" style="display:none">Last name</label>
-          <input type="text" placeholder="Dupont" />
+          <label>Email</label>
+          <input type="email" placeholder="john@company.com" />
         </div>
+        <div class="form-group">
+          <label class="fr-text">Pays / Marché</label>
+          <label class="en-text" style="display:none">Country / Market</label>
+          <input type="text" placeholder="UAE, Australia, USA..." />
+        </div>
+        <div class="form-group">
+          <label class="fr-text">Modèle d'intérêt</label>
+          <label class="en-text" style="display:none">Model of interest</label>
+          <select>
+            <option value="">— Sélectionner —</option>
+            <option>Covarel 560</option>
+            <option>Covarel 650 Patrol</option>
+            <option>Covarel 780 Pro</option>
+            <option>Covarel 900 Luxury</option>
+            <option class="fr-text">Plusieurs modèles</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="fr-text">Message</label>
+          <label class="en-text" style="display:none">Message</label>
+          <textarea placeholder="Décrivez votre projet..."></textarea>
+        </div>
+        <button class="btn-gold fr-text" style="width:100%; cursor:none;" onclick="alert('Message envoyé !')">Envoyer la demande</button>
+        <button class="btn-gold en-text" style="display:none; width:100%; cursor:none;" onclick="alert('Message sent!')">Send request</button>
       </div>
-      <div class="form-group">
-        <label>Email</label>
-        <input type="email" placeholder="hugo@email.com" />
-      </div>
-      <div class="form-group">
-        <label class="fr-text">Vous êtes</label><label class="en-text" style="display:none">You are</label>
-        <select>
-          <option value="" class="fr-text">— Sélectionner —</option>
-          <option class="fr-text">Particulier / Plaisancier</option>
-          <option class="fr-text">Professionnel / Location</option>
-          <option class="fr-text">Yacht club / Centre nautique</option>
-          <option class="fr-text">Revendeur / Export</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="fr-text">Modèle d'intérêt</label><label class="en-text" style="display:none">Model of interest</label>
-        <select>
-          <option value="">— Sélectionner —</option>
-          <option>Covarel 550 (5.5m) — dès 12 500€</option>
-          <option>Covarel 650 Pro (6.5m) — dès 22 000€</option>
-          <option>Covarel 780 (7.8m) — dès 28 000€</option>
-          <option>Covarel 900 Prestige (9m) — sur devis</option>
-          <option class="fr-text">Je ne sais pas encore</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="fr-text">Message</label><label class="en-text" style="display:none">Message</label>
-        <textarea class="fr-text" placeholder="Décrivez votre projet, usage prévu, port d'attache..."></textarea>
-        <textarea class="en-text" style="display:none" placeholder="Describe your project, intended use, home port..."></textarea>
-      </div>
-      <button class="btn-gold fr-text" style="width:100%;border:none;" onclick="alert('Merci ! Je vous réponds sous 24h. 🙏')">Envoyer ma demande</button>
-      <button class="btn-gold en-text" style="display:none;width:100%;border:none;" onclick="alert('Thank you! I\'ll reply within 24h. 🙏')">Send my request</button>
     </div>
-  </div>
-</section>
+  </section>
 
-<footer>
-  <div class="footer-logo">COVAREL<span>·</span>RIB</div>
-  <div class="footer-copy">© 2025 Covarel RIB · Var (83), France</div>
-  <div class="footer-links">
-    <a href="#" class="fr-text">Mentions légales</a>
-    <a href="#" class="en-text" style="display:none">Legal</a>
-    <a href="#contact">Contact</a>
-  </div>
-</footer>
+  <!-- FOOTER -->
 
-<script>
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursorRing');
-  document.addEventListener('mousemove', e => {
-    cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
-    setTimeout(() => { ring.style.left = e.clientX + 'px'; ring.style.top = e.clientY + 'px'; }, 80);
-  });
-  window.addEventListener('scroll', () => {
-    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
-  });
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach((e, i) => { if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 100); });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(r => observer.observe(r));
-  function setLang(lang) {
-    document.querySelectorAll('.fr-text').forEach(el => el.style.display = lang === 'fr' ? '' : 'none');
-    document.querySelectorAll('.en-text').forEach(el => el.style.display = lang === 'en' ? '' : 'none');
-    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-    document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
-  }
-</script>
+  <footer>
+    <div class="footer-logo">COVAREL<span>·</span>RIB</div>
+    <div class="footer-copy">© 2025 Covarel RIB — All rights reserved</div>
+    <div class="footer-links">
+      <a href="#" class="fr-text">Mentions légales</a>
+      <a href="#" class="en-text" style="display:none">Legal</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </footer>
+
+  <script>
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+      setTimeout(() => {
+        ring.style.left = e.clientX + 'px';
+        ring.style.top = e.clientY + 'px';
+      }, 80);
+    });
+
+    // Navbar scroll
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Reveal on scroll
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 100);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(r => observer.observe(r));
+
+    // Language toggle
+    function setLang(lang) {
+      document.querySelectorAll('.fr-text').forEach(el => el.style.display = lang === 'fr' ? '' : 'none');
+      document.querySelectorAll('.en-text').forEach(el => el.style.display = lang === 'en' ? '' : 'none');
+      document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+    }
+  </script>
 
 </body>
 </html>
